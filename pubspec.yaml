@@ -1,0 +1,121 @@
+name: privacy_transparency_sleep_tracker
+description: Privacy-transparent sleep tracker – Flutter migration from React Native 0.79.3 / Expo SDK 53.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+# MIGRATION: All Expo/React-Native dependencies replaced with idiomatic Flutter equivalents.
+#   expo-router          → go_router ^14  (ShellRoute for tab nav)
+#   zustand              → flutter_bloc ^8 (BLoC/Cubit pattern)
+#   expo-sqlite          → sqflite ^2     (same SQL schema preserved for data compat)
+#   expo-secure-store    → flutter_secure_storage ^9
+#   crypto-js            → pointycastle ^3 (AES-CBC-PKCS7, same key format)
+#   expo-sensors         → sensors_plus ^4 (iOS light sensor stubbed)
+#   expo-av              → record ^5
+#   expo-background-fetch→ flutter_background_service ^5 (ForegroundService on Android 8+)
+#   @react-navigation    → go_router ShellRoute (bottom tabs)
+#   AsyncStorage         → shared_preferences ^2
+#   react-native-walkthrough-tooltip → custom Flutter overlay (PrivacyTooltip)
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # ── State management ──────────────────────────────────────────────────────
+  flutter_bloc: ^8.1.6
+  # MIGRATION: Using Riverpod alongside BLoC only for simple dependency injection
+  #            of services (singletons). BLoC handles all reactive screen state.
+  flutter_riverpod: ^2.5.1
+
+  # ── Navigation ────────────────────────────────────────────────────────────
+  # MIGRATION: expo-router file-based routing → go_router with ShellRoute for
+  #            persistent bottom-tab scaffold (matches Expo's (tabs) group).
+  go_router: ^14.2.0
+
+  # ── Database ──────────────────────────────────────────────────────────────
+  # MIGRATION: expo-sqlite → sqflite. Same table names & column names preserved
+  #            (journals, sensor_data) to maintain data compatibility (Rule 13).
+  sqflite: ^2.3.3
+  path: ^1.9.0
+
+  # ── Secure storage ────────────────────────────────────────────────────────
+  # MIGRATION: expo-secure-store → flutter_secure_storage.
+  #            iOS: Keychain, Android: EncryptedSharedPreferences.
+  flutter_secure_storage: ^9.0.0
+
+  # ── Crypto ────────────────────────────────────────────────────────────────
+  # MIGRATION: crypto-js (AES-CBC) → pointycastle ^3.
+  #            Key format: raw 256-bit key stored as Base64 in secure storage.
+  #            IV prepended as Base64, separated by ':' — identical wire format
+  #            to the React Native source so existing encrypted rows are readable (Rule 12).
+  pointycastle: ^3.7.3
+
+  # ── Sensors ───────────────────────────────────────────────────────────────
+  # MIGRATION: expo-sensors → sensors_plus ^4.
+  #            Accelerometer: UserAccelerometerEvent (same axes).
+  #            Light sensor: available on Android; iOS stubs → SensorNotAvailableWidget (Rule 10).
+  sensors_plus: ^4.0.2
+
+  # ── Audio ─────────────────────────────────────────────────────────────────
+  # MIGRATION: expo-av → record ^5. Uses amplitude metering to derive dB values.
+  record: ^5.1.1
+
+  # ── Background tasks ──────────────────────────────────────────────────────
+  # MIGRATION: expo-background-fetch / expo-task-manager → flutter_background_service ^5.
+  #            Android 8+: ForegroundService + persistent notification (Rule 11).
+  flutter_background_service: ^5.0.5
+  flutter_local_notifications: ^17.2.2
+
+  # ── Networking ────────────────────────────────────────────────────────────
+  # MIGRATION: fetch/axios-style calls in HttpClient → http ^1.
+  http: ^1.2.2
+
+  # ── Persistence (non-secure) ─────────────────────────────────────────────
+  # MIGRATION: @react-native-async-storage/async-storage → shared_preferences.
+  #            Used for onboarding flags, consent preferences, transparency events.
+  shared_preferences: ^2.3.2
+
+  # ── Fonts / UI ────────────────────────────────────────────────────────────
+  # MIGRATION: SpaceMono loaded via expo-font → bundled as asset font in pubspec.
+  #            google_fonts not used; font files copied into assets/fonts/.
+  google_fonts: ^6.2.1          # fallback if font asset missing in dev
+  flutter_svg: ^2.0.10+1
+  url_launcher: ^6.3.1          # replaces expo-web-browser / Linking
+  intl: ^0.19.0                 # date formatting (replaces toLocaleDateString)
+  uuid: ^4.4.0                  # UUID v4 (replaces expo-crypto randomUUID)
+  permission_handler: ^11.3.1   # replaces Expo permission APIs
+  path_provider: ^2.1.4         # file system paths
+
+dependency_overrides:
+  record_linux: ^1.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.9
+  flutter_launcher_icons: ^0.14.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/privacyPolicyData.json
+    - assets/images/
+    - assets/images/privacy/
+    - assets/images/privacy/sensor/
+
+  fonts:
+    # MIGRATION: SpaceMono loaded statically (expo-font useFonts hook replaced
+    #            by declaring font family in pubspec; no async font loading needed).
+    - family: SpaceMono
+      fonts:
+        - asset: assets/fonts/SpaceMono-Regular.ttf
+        - asset: assets/fonts/SpaceMono-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/SpaceMono-Italic.ttf
+          style: italic
+        - asset: assets/fonts/SpaceMono-BoldItalic.ttf
+          weight: 700
+          style: italic
