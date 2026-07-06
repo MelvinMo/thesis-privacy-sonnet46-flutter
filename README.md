@@ -1,16 +1,16 @@
 # Sleep Tracker — Claude Sonnet 4.6 → Flutter Migration
 
-> **Thesis artifact 5 of 7.** This repository is one implementation from a McMaster University M.Sc. thesis studying whether AI coding agents can migrate a mobile health app across frameworks without degrading usability. See [Thesis citation](#thesis-citation) and [Related repositories](#related-repositories) below.
+> This is repo 5 of 7 from my M.Sc. thesis at McMaster University, *"Who Moved My Button?": A Usability Evaluation of LLM-Assisted Cross-Platform Migration*. I had two AI coding agents (Claude Sonnet 4.6 and GPT-5.5) each migrate a real mobile health app to three different frameworks, then evaluated all 7 resulting apps for usability. This repo is Claude Sonnet 4.6's rewrite in Flutter. The other six are linked below.
 
-Flutter/Dart rewrite of the original React Native "Sleep Tracker" privacy-transparency app, produced by **Claude Sonnet 4.6** under a shared 15-rule migration prompt. It talks to the same Node.js/Express backend as the original app (see [thesis-privacy-baseline](https://github.com/MelvinMo/thesis-privacy-baseline)).
+Flutter/Dart rewrite of the original React Native "Sleep Tracker" privacy-transparency app, produced by **Claude Sonnet 4.6** under a shared 15-rule migration prompt I wrote. It talks to the same Node.js/Express backend as the original app (see [thesis-privacy-baseline](https://github.com/MelvinMo/thesis-privacy-baseline)).
 
 **UI fidelity target:** pixel-for-pixel match to the React Native source — layouts, text, font sizes, colors, padding, icons, and navigation flows were all checked against the original. SpaceMono is used app-wide as the font, matching the source app's bundled font.
 
 ---
 
-## Usability findings (from the thesis)
+## Usability findings (from my thesis)
 
-This migration was evaluated with Nielsen's ten usability heuristics across six standardized tasks by a single assessor (severity 0–4, lower is better). Full detail is in **Chapter 4** of the thesis (App 2).
+This migration was evaluated with Nielsen's ten usability heuristics across six standardized tasks by a single assessor (severity 0–4, lower is better). Full detail is in **Chapter 4** of my thesis (App 2).
 
 | Metric | Value |
 |---|---|
@@ -43,7 +43,6 @@ Three regressions, each rated severity 3, account for the gap above baseline —
 | Flutter SDK | 3.3.0 or later | https://docs.flutter.dev/get-started/install |
 | Dart SDK | >=3.3.0 (bundled with Flutter) | — |
 | Android Studio | latest | for Android emulator + SDK |
-| Xcode 14+ | latest (Mac only) | for iOS builds |
 
 Verify your setup:
 ```bash
@@ -108,11 +107,6 @@ flutter run --dart-define=API_UNENCRYPTED_URL=http://10.0.2.2:7000
 ```
 `10.0.2.2` is the emulator's alias for the host machine's `localhost`.
 
-**iOS (Mac only)**
-```bash
-flutter run -d iphone --dart-define=API_ENCRYPTED_URL=https://<your-backend-host>
-```
-
 **Choose a specific connected device**
 ```bash
 flutter devices
@@ -156,18 +150,17 @@ Tap any privacy icon during sleep mode to open the tooltip, or go to **Profile �
 │   └── widgets/                   # transparency icons/tooltips, shared UI components
 ├── assets/                        # fonts, images, privacyPolicyData.json
 ├── android/                       # Android native project
-├── ios/                           # iOS native project (Mac only)
 ├── .env.example                   # Backend URL reference values (see Section 3)
 └── .gitignore
 ```
 
 ---
 
-## Known limitations (from the thesis)
+## Known limitations (from my thesis)
 
 - The onboarding back button does not return to previous consent steps (uses `context.go()` instead of `context.push()`).
 - The bedtime save handler dispatches a privacy-risk re-analysis that the alarm-time save handler omits, and silently discards analysis failures.
-- See Chapter 4 of the thesis for the full task-by-task and heuristic-by-heuristic severity breakdown, including the two other Claude Sonnet 4.6 migrations (KMP, MAUI).
+- See Chapter 4 of my thesis for the full task-by-task and heuristic-by-heuristic severity breakdown, including the two other Claude Sonnet 4.6 migrations (KMP, MAUI).
 
 ---
 
@@ -177,9 +170,9 @@ This repository contains **no real credentials**. `.env.example` holds placehold
 
 ---
 
-## Thesis citation
+## Citing my thesis
 
-If you reference this artifact, please cite:
+If you're referencing this repo, here's the full citation:
 
 > Mokhtari, M. (2026). *"Who Moved My Button?": A Usability Evaluation of LLM-Assisted Cross-Platform Migration* [Master's thesis, McMaster University]. Department of Computing and Software. Supervisor: Richard F. Paige.
 
@@ -187,4 +180,4 @@ If you reference this artifact, please cite:
 
 ## License
 
-All rights reserved. This repository is published for academic review and reproducibility alongside the thesis above. No license is granted for reuse, modification, or redistribution without permission from the author.
+All rights reserved — this is my thesis work. I've published it publicly so it's easy to review and reproduce, but please reach out to me before reusing or redistributing any of it.
