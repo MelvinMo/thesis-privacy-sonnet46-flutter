@@ -1,6 +1,6 @@
 # Sleep Tracker — Claude Sonnet 4.6 → Flutter Migration
 
-> Repo 5/7 from my M.Sc. thesis, *"Who Moved My Button?"* (McMaster, 2026) — Claude Sonnet 4.6's migration to Flutter, mid-tier among the six. Other repos + baseline linked below.
+> Repo 3/7 from my M.Sc. thesis, *"Who Moved My Button?"* (McMaster, 2026) — Claude Sonnet 4.6's migration to Flutter, mid-tier among the six. Other repos + baseline linked below.
 
 Flutter/Dart rewrite of the original React Native "Sleep Tracker" privacy-transparency app, produced by **Claude Sonnet 4.6** under a shared 15-rule migration prompt I wrote. It talks to the same Node.js/Express backend as the original app (see [llm-migration-sleeptracker-baseline](https://github.com/MelvinMo/llm-migration-sleeptracker-baseline)).
 
